@@ -1,0 +1,145 @@
+body {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    /* No scrollbars */
+    background-color: #000;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+#game-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+#ui-layer {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 32px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 3px 3px 0 #000;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 10;
+}
+
+#game-over-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    z-index: 20;
+}
+
+#game-over-screen h1 {
+    font-size: 60px;
+    margin-bottom: 30px;
+    text-shadow: 4px 4px 0 #000;
+    color: #e52521;
+}
+
+#game-over-screen p {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+#level-transition-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #FFD700;
+    z-index: 30;
+}
+
+#level-transition-screen h1 {
+    font-size: 40px;
+    margin-bottom: 20px;
+    text-shadow: 4px 4px 0 #000;
+}
+
+#level-transition-screen p {
+    font-size: 24px;
+    color: white;
+}
+
+.hidden {
+    display: none !important;
+}
+
+button {
+    padding: 15px 30px;
+    font-size: 24px;
+    cursor: pointer;
+    background: #e52521;
+    border: 3px solid white;
+    color: white;
+    margin-top: 20px;
+    font-family: inherit;
+    text-transform: uppercase;
+    box-shadow: 4px 4px 0 #000;
+}
+
+button:hover {
+    background: #ff4444;
+    transform: scale(1.05);
+}
+
+#shop-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #FFD700;
+    z-index: 40;
+}
+
+#shop-screen h1 {
+    font-size: 50px;
+    margin-bottom: 20px;
+    text-shadow: 4px 4px 0 #000;
+}
+
+#shop-screen p {
+    font-size: 24px;
+    color: white;
+    margin-bottom: 20px;
+}
+
+#shop-message {
+    color: red;
+    font-weight: bold;
+    margin-top: 10px;
+}
