@@ -3,8 +3,12 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Super RABÄ game</title>
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>Super RABÄ Spiel</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -29,6 +33,54 @@
             <p>Welcome! Press F to Close.</p>
             <button id="buy-wings-btn">Wings - 12 Coins (Press M)</button>
             <p id="shop-message"></p>
+        </div>
+
+        <!-- Skin Selection Menu -->
+        <div id="skin-menu" class="hidden">
+            <h1>🎨 Charakter Auswahl</h1>
+            <p class="menu-subtitle">Drücke ESC zum Schließen</p>
+            <div id="skin-grid">
+                <div class="skin-card selected" data-skin="raba">
+                    <div class="skin-preview" id="preview-raba"></div>
+                    <h3>RABÄ</h3>
+                    <p>Original Hero</p>
+                    <div class="selected-badge">✓ AUSGEWÄHLT</div>
+                </div>
+                <div class="skin-card" data-skin="luigi">
+                    <div class="skin-preview" id="preview-luigi"></div>
+                    <h3>Luigi</h3>
+                    <p>Green Plumber</p>
+                    <div class="selected-badge">✓ AUSGEWÄHLT</div>
+                </div>
+                <div class="skin-card" data-skin="toad">
+                    <div class="skin-preview" id="preview-toad"></div>
+                    <h3>Toad</h3>
+                    <p>Mushroom Friend</p>
+                    <div class="selected-badge">✓ AUSGEWÄHLT</div>
+                </div>
+                <div class="skin-card" data-skin="yoshi">
+                    <div class="skin-preview" id="preview-yoshi"></div>
+                    <h3>Yoshi</h3>
+                    <p>Dino Companion</p>
+                    <div class="selected-badge">✓ AUSGEWÄHLT</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Touch Controls -->
+        <div id="mobile-controls">
+            <div class="control-group left-controls">
+                <button id="btn-left" class="control-btn direction-btn">◄</button>
+                <button id="btn-right" class="control-btn direction-btn">►</button>
+            </div>
+            <div class="control-group center-controls">
+                <button id="btn-menu" class="control-btn menu-btn">🎨</button>
+            </div>
+            <div class="control-group right-controls">
+                <button id="btn-jump" class="control-btn action-btn">JUMP</button>
+                <button id="btn-shoot" class="control-btn action-btn">SHOOT</button>
+                <button id="btn-action" class="control-btn action-btn small">WINGS</button>
+            </div>
         </div>
     </div>
     <script src="game.js"></script>

@@ -4,7 +4,6 @@ body {
     width: 100vw;
     height: 100vh;
     overflow: hidden;
-    /* No scrollbars */
     background-color: #000;
     font-family: 'Courier New', Courier, monospace;
 }
@@ -142,4 +141,306 @@ button:hover {
     color: red;
     font-weight: bold;
     margin-top: 10px;
+}
+
+/* Skin Selection Menu */
+#skin-menu {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    z-index: 50;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+#skin-menu h1 {
+    font-size: 48px;
+    margin-bottom: 10px;
+    text-shadow: 4px 4px 0 #000;
+    color: #FFD700;
+}
+
+.menu-subtitle {
+    font-size: 18px;
+    color: #aaa;
+    margin-bottom: 30px;
+}
+
+#skin-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    max-width: 1000px;
+    width: 100%;
+}
+
+.skin-card {
+    background: rgba(255, 255, 255, 0.1);
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 15px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    text-align: center;
+}
+
+.skin-card:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 215, 0, 0.8);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(255, 215, 0, 0.3);
+}
+
+.skin-card.selected {
+    background: rgba(255, 215, 0, 0.2);
+    border-color: #FFD700;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+.skin-preview {
+    width: 100%;
+    height: 150px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.skin-card h3 {
+    font-size: 24px;
+    margin: 10px 0 5px 0;
+    color: #FFD700;
+    text-shadow: 2px 2px 0 #000;
+}
+
+.skin-card p {
+    font-size: 14px;
+    color: #ccc;
+    margin: 0;
+}
+
+.selected-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #4CAF50;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    display: none;
+}
+
+.skin-card.selected .selected-badge {
+    display: block;
+}
+
+/* Responsive skin menu */
+@media (max-width: 900px) {
+    #skin-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+    #skin-menu h1 {
+        font-size: 36px;
+    }
+}
+
+@media (max-width: 480px) {
+    #skin-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    #skin-menu h1 {
+        font-size: 28px;
+    }
+
+    .skin-preview {
+        height: 120px;
+    }
+}
+
+/* Mobile Touch Controls */
+#mobile-controls {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 180px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 20px;
+    box-sizing: border-box;
+    pointer-events: none;
+    z-index: 100;
+}
+
+.control-group {
+    display: flex;
+    gap: 15px;
+    pointer-events: auto;
+}
+
+.left-controls {
+    flex-direction: row;
+    align-items: center;
+}
+
+.right-controls {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+.center-controls {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.control-btn {
+    background: rgba(255, 255, 255, 0.3);
+    border: 3px solid rgba(255, 255, 255, 0.6);
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: all 0.1s ease;
+}
+
+.direction-btn {
+    width: 70px;
+    height: 70px;
+    font-size: 32px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.action-btn {
+    padding: 15px 25px;
+    min-width: 100px;
+    height: 60px;
+}
+
+.action-btn.small {
+    padding: 10px 20px;
+    min-width: 80px;
+    height: 45px;
+    font-size: 16px;
+}
+
+.menu-btn {
+    width: 60px;
+    height: 60px;
+    font-size: 28px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.control-btn:active {
+    background: rgba(255, 255, 255, 0.6);
+    transform: scale(0.95);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Hide controls on desktop */
+@media (min-width: 1024px) {
+    #mobile-controls {
+        display: none;
+    }
+}
+
+/* Adjust for smaller screens */
+@media (max-width: 480px) {
+    .direction-btn {
+        width: 60px;
+        height: 60px;
+        font-size: 28px;
+    }
+
+    .action-btn {
+        padding: 12px 20px;
+        min-width: 85px;
+        height: 50px;
+        font-size: 16px;
+    }
+
+    .action-btn.small {
+        padding: 8px 15px;
+        min-width: 70px;
+        height: 40px;
+        font-size: 14px;
+    }
+
+    .menu-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+    }
+
+    #ui-layer {
+        font-size: 24px;
+        top: 10px;
+        left: 10px;
+    }
+}
+
+/* Landscape orientation adjustments */
+@media (max-height: 500px) and (orientation: landscape) {
+    #mobile-controls {
+        height: 140px;
+        padding: 10px;
+    }
+
+    .direction-btn {
+        width: 55px;
+        height: 55px;
+    }
+
+    .action-btn {
+        height: 45px;
+        padding: 10px 18px;
+        font-size: 14px;
+    }
+
+    .action-btn.small {
+        height: 35px;
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+
+    .menu-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+    }
 }

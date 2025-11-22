@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pipe Demo - Super RABÄ</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: #5c94fc;
+            font-family: Arial, sans-serif;
+        }
+
+        canvas {
+            display: block;
+        }
+
+        #info {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white;
+            font-size: 24px;
+            text-shadow: 2px 2px 0 #000;
+            z-index: 10;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="info">
+        <div>🎮 Pfeiltasten: Bewegen | Space: Springen</div>
+        <div>🟢 Grüne Röhren sind in der Mitte jedes Levels!</div>
+    </div>
+    <canvas id="canvas"></canvas>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Simple player
+        const player = {
+            x: 100,
+            y: canvas.height - 150,
+            width: 40,
+            height: 40,
+            vx: 0,
+            vy: 0,
+            speed: 5,
+            jumpPower: -15,
+            gravity: 0.8,
+            grounded: false
+        };
+
+        // Level dimensions
+        const levelWidth = 30000;
+        const groundY = canvas.height - 50;
+
+        // Camera
+        let cameraX = 0;
+
+        // Create 3 pipes - one in the middle of each "section"
+        const pipes = [
+            { x: 5000, y: groundY - 100, width: 80, height: 100, label: "Level 1 Pipe" },
+            { x: 15000, y: groundY - 100, width: 80, height: 100, label: "Level 2 Pipe" },
+            { x: 25000, y: groundY - 100, width: 80, height: 100, label: "Level 3 Pipe" }
+        ];
+
+        // Input
+        const keys = {};
+        window.addEventListener('keydown', e => {
+            keys[e.code] = true;
+            if (e.code === 'Space' && player.grounded) {
+                player.vy = player.jumpPower;
+                player.grounded = false;
+            }
+        });
+        window.addEventListener('keyup', e => keys[e.code] = false);
+
+        function drawPipe(pipe) {
+            // Main pipe body (bright green)
+            ctx.fillStyle = '#00DD00';
+            ctx.fillRect(pipe.x, pipe.y, pipe.width, pipe.height);
+
+            // Darker green for shading (left side)
+            ctx.fillStyle = '#00AA00';
+            ctx.fillRect(pipe.x, pipe.y, 15, pipe.height);
+
+            // Even darker for right side
+            ctx.fillStyle = '#008800';
+            ctx.fillRect(pipe.x + pipe.width - 15, pipe.y, 15, pipe.height);
+
+            // Pipe rim (top) - lighter green
+            ctx.fillStyle = '#00FF00';
+            ctx.fillRect(pipe.x - 10, pipe.y - 15, pipe.width + 20, 20);
+
+            // Rim top highlight
+            ctx.fillStyle = '#88FF88';
+            ctx.fillRect(pipe.x - 10, pipe.y - 15, pipe.width + 20, 5);
+
+            // Inner darkness (pipe opening)
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(pipe.x + 15, pipe.y - 5, pipe.width - 30, 15);
+
+            // Label above pipe
+            ctx.fillStyle = '#FFFFFF';
+            ctx.font = 'bold 20px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText(pipe.label, pipe.x + pipe.width / 2, pipe.y - 30);
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 3;
+            ctx.strokeText(pipe.label, pipe.x + pipe.width / 2, pipe.y - 30);
+        }
+
+        function update() {
+            // Player movement
+            if (keys['ArrowLeft']) player.vx = -player.speed;
+            else if (keys['ArrowRight']) player.vx = player.speed;
+            else player.vx = 0;
+
+            player.x += player.vx;
+            player.vy += player.gravity;
+            player.y += player.vy;
+
+            // Ground collision
+            if (player.y + player.height > groundY) {
+                player.y = groundY - player.height;
+                player.vy = 0;
+                player.grounded = true;
+            }
+
+            // Boundaries
+            if (player.x < 0) player.x = 0;
+            if (player.x > levelWidth - player.width) player.x = levelWidth - player.width;
+
+            // Camera follows player
+            cameraX = player.x - canvas.width / 2;
+            if (cameraX < 0) cameraX = 0;
+            if (cameraX > levelWidth - canvas.width) cameraX = levelWidth - canvas.width;
+        }
+
+        function draw() {
+            // Sky
+            ctx.fillStyle = '#5c94fc';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.save();
+            ctx.translate(-cameraX, 0);
+
+            // Draw distance markers
+            ctx.fillStyle = '#FFFFFF';
+            ctx.font = '16px Arial';
+            for (let x = 0; x < levelWidth; x += 1000) {
+                ctx.fillText(x + 'm', x, 30);
+            }
+
+            // Draw all pipes
+            pipes.forEach(pipe => {
+                if (pipe.x > cameraX - 200 && pipe.x < cameraX + canvas.width + 200) {
+                    drawPipe(pipe);
+                }
+            });
+
+            // Ground
+            ctx.fillStyle = '#805300';
+            ctx.fillRect(0, groundY, levelWidth, canvas.height - groundY);
+            ctx.fillStyle = '#00b300';
+            ctx.fillRect(0, groundY, levelWidth, 10);
+
+            // Player (red square)
+            ctx.fillStyle = '#FF0000';
+            ctx.fillRect(player.x, player.y, player.width, player.height);
+
+            // Player outline
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(player.x, player.y, player.width, player.height);
+
+            ctx.restore();
+
+            // UI - Current position
+            ctx.fillStyle = '#FFFFFF';
+            ctx.font = 'bold 20px Arial';
+            ctx.textAlign = 'left';
+            ctx.fillText('Position: ' + Math.floor(player.x) + 'm', 20, canvas.height - 20);
+            ctx.fillText('Nächste Pipe: ' + pipes.find(p => p.x > player.x)?.label || 'Keine', 20, canvas.height - 50);
+        }
+
+        function gameLoop() {
+            update();
+            draw();
+            requestAnimationFrame(gameLoop);
+        }
+
+        gameLoop();
+
+        // Resize handler
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+
+</html>
